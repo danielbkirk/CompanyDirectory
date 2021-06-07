@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Company Directory</title>
+
+    <meta name="author" content="Daniel Kirk">
+
+    <link rel="stylesheet" href="libs/css/style.css" />
+</head>
+<body>
+    <div>
+        <form>
+            <!--Thinking of eventually having one search field where you can seach for all three fields.-->
+            <label for="name">Name</label>
+            <input type="text" id="name" />
+
+            <label for="department">Department</label>
+            <select name="department" id="department">
+                <option value="all" selected>All</option>
+                <option value="admin">Admin</option>
+                <option value="shop">Shop</option>
+                <option value="driver">Driver</option>
+            </select>
+
+            <label for="location">location</label>
+            <select name="location" id="location">
+                <option value="all" selected>All</option>
+                <option value="headOffice">Head Office</option>
+                <option value="midlands">Midlands</option>
+                <option value="scotland">Scotland</option>
+            </select>
+
+            <input type="button" value="Search" />
+        </form>
+    </div>
+
+
+    <div>
+        <button id="createStaff">Create</button>
+    </div>
+
+    <div>
+        <table id="resultsTable">
+            <tr id="resultsTableHeader">
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Department</th>
+                <th>Location</th>
+            </tr>
+
+        </table>
+    </div>
+
+    <div id="createStaffDiv">
+        <form>
+            <label for="firstNameCreate">First Name</label>
+            <input type="text" id="firstNameCreate" required />
+            <label for="lastNameCreate">Last Name</label>
+            <input type="text" id="lastNameCreate" required />
+            <label for="jobTitleCreate">Job Title</label>
+            <input type="text" id="jobTitleCreate" />
+            <label for="departmentCreate">Department</label>
+            <select id="departmentCreate">
+            </select>
+        </form>
+    </div>
+    <div id='preloader'></div>
+
+
+
+    <!--Need this file to be able to run javascript-->
+    <script type="application/javascript" src="vendor/jquery/jquery-2.2.3.min.js"></script>
+    <script type="application/javascript" src="libs/js/script.js"></script>
+</body>
+</html>
