@@ -46,3 +46,35 @@
         transform: rotate(360deg);
     }
 }
+
+html, body{
+    height:100%;
+    margin:0;
+    width: 100%;
+}
+
+
+ul{
+    padding:0;
+}
+
+li {
+    list-style: none;
+    border-bottom: 1px solid grey
+}
+
+
+
+.letterGroup{
+    background-color: lightgray;
+}
+
+.result:hover{
+    cursor: pointer;
+    background-color: lightgray;
+}
+
+
+legend{
+    font-size: 110%;
+}
