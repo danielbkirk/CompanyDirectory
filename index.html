@@ -8,71 +8,262 @@
 
     <meta name="author" content="Daniel Kirk">
 
+    <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css" />
+
+    <link rel="stylesheet" href="vendor/bootstrap/font/bootstrap-icons.css" />
+
     <link rel="stylesheet" href="libs/css/style.css" />
 </head>
 <body>
-    <div>
-        <form>
-            <!--Thinking of eventually having one search field where you can seach for all three fields.-->
-            <label for="name">Name</label>
-            <input type="text" id="name" />
 
-            <label for="department">Department</label>
-            <select name="department" id="department">
-                <option value="all" selected>All</option>
-                <option value="admin">Admin</option>
-                <option value="shop">Shop</option>
-                <option value="driver">Driver</option>
-            </select>
+    <div id="container">
+        <div class="row">
+            <div id="searchBar" class="">
+                <input type="text" id="name" placeholder="Search Name" />
 
-            <label for="location">location</label>
-            <select name="location" id="location">
-                <option value="all" selected>All</option>
-                <option value="headOffice">Head Office</option>
-                <option value="midlands">Midlands</option>
-                <option value="scotland">Scotland</option>
-            </select>
+                <select name="location" id="location" class="locations">
+                    <option class="allLocations" value="all" selected>Location</option>
+                </select>
 
-            <input type="button" value="Search" />
-        </form>
+                <select name="department" id="department" class="departments">
+                    <option id="allDepartments" value="all" selected>Department</option>
+
+                </select>
+
+                <button class="btn btn-outline-primary" type="button" id="search">Search</button>
+                <button class="btn btn-outline-primary" type="button" id="clear">Clear</button>
+            </div>
+
+            <div id="createDiv" class="col">
+                <button id="create" class="btn btn-outline-primary float-end" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Edit
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="create">
+
+                    <li>
+                        <button class="btn btn-primary dropdown-item" id="crPersonnel" type="button" data-bs-toggle="modal" data-bs-target="#createPersonnelModal">Create Personnel</button>
+                    </li>
+
+                    <li>
+                        <button class="btn btn-primary dropdown-item" id="createDeptButton" type="button" data-bs-toggle="modal" data-bs-target="#createDeptModal">Create Department</button>
+                    </li>
+
+                    <li>
+                        <button class="btn btn-primary dropdown-item" id="delDept" type="button" data-bs-toggle="modal" data-bs-target="#deleteDepartmentModal">Delete Department</button>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+        <!--results list goes here-->
+        <div id="contactListDiv" class="row">
+            <ul id="contactList" class="">
+            </ul>
+        </div>
+        <!--results finish here-->
     </div>
 
 
-    <div>
-        <button id="createStaff">Create</button>
+    <div class="modal" tabindex="-1" id="createDeptModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create Department</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <form>
+                        <fieldset>
+                            <legend>Department</legend>
+                            <input type="text" id="cdDeptName" placeholder="e.g. Admin" />
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Location</legend>
+                            <select id="cdDeptLocation" class="locations" required>
+                                <option></option>
+                            </select>
+                        </fieldset>
+
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="createDepartment">Create</button>
+                    <!--JS create on lick of button if fields are missing the change colour of box to red with a note at the bottom saying please fill in blank fields-->
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div>
-        <table id="resultsTable">
-            <tr id="resultsTableHeader">
-                <th>First name</th>
-                <th>Last name</th>
-                <th>Department</th>
-                <th>Location</th>
-            </tr>
+    <div class="modal" tabindex="-1" id="createPersonnelModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create Personnel</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
 
-        </table>
+                    <form>
+                        <fieldset>
+                            <legend>First Name</legend>
+                            <input type="text" id="csFirstName" class="cs" required />
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Last Name</legend>
+                            <input type="text" id="csLastName" required class="cs" />
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Email</legend>
+                            <input type="text" id="csEmail" class="cs" />
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>job Title</legend>
+                            <input type="text" id="csJobTitle" class="cs" />
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Department</legend>
+                            <select id="csDepartment" class="departments" required>
+                                <option></option>
+                            </select>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Location</legend>
+                            <select id="csLocation" class="locations" disabled="true">
+                                <option></option>
+                            </select>
+                        </fieldset>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="createPersonnel">Create</button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div id="createStaffDiv">
-        <form>
-            <label for="firstNameCreate">First Name</label>
-            <input type="text" id="firstNameCreate" required />
-            <label for="lastNameCreate">Last Name</label>
-            <input type="text" id="lastNameCreate" required />
-            <label for="jobTitleCreate">Job Title</label>
-            <input type="text" id="jobTitleCreate" />
-            <label for="departmentCreate">Department</label>
-            <select id="departmentCreate">
-            </select>
-        </form>
+    <div class="modal" tabindex="-1" id="deleteDepartmentModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete Department</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <form>
+                        <fieldset>
+                            <legend>Select teh department you wish to delete</legend>
+                            <select name="department" id="ddDepartment" class="departments">
+                                <option></option>
+                            </select>
+                        </fieldset>
+                    </form>
+
+                    <p class="ddConfirm">Are you sure you want to delete <span id="deptToDelete"></span>, this cannot be undone.</p>
+
+                    <p class="ddFail"><span id="ddFailDept"></span> cannot be deleted as there people assigned to that department!</p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="deleteDepartment">Delete</button>
+
+                    <button id="ddConfirm" class="ddConfirm">Yes</button>
+                    <button class="ddConfirm" id="ddDecline">No</button>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <div class="modal" tabindex="-1" id="personnelModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Personnel Infomration</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">Edit?</button>
+                </div>
+                <div class="modal-body">
+
+                    <form>
+                        <!--Have text box's disabled and then on edit they become editable-->
+
+                        <fieldset>
+                            <legend>First Name</legend>
+                            <input id="ssFirst" class="staffInfo" readonly></input>
+                            <input class="editPersonnel" id="epFirst" />
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Last Name</legend>
+                            <input id="ssLast" class="staffInfo" readonly></input>
+                            <input class="editPersonnel" id="epLast" />
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Email</legend>
+                            <input id="ssEmail" class="staffInfo" readonly></input>
+                            <input class="editPersonnel" id="epEmail" />
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Job Title</legend>
+                            <input id="ssTitle" class="staffInfo" readonly></input>
+                            <input class="editPersonnel" id="epJob" />
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Department</legend>
+                            <input id="ssDepartment" class="staffInfo" readonly></input>
+                            <select id="epDepartment" class="departments editPersonnel">
+                            </select>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Location</legend>
+                            <input id="ssLocation" class="staffInfo" readonly></input>
+                            <select id="epLocation" class="locations editPersonnel" disabled="true">
+                            </select>
+                        </fieldset>
+
+                    </form>
+
+                    <p class="dpConfirm">Are you sure you want to delete <span id="personnelToDelete"></span>, this cannot be undone.</p>
+
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary" id="editPersonnel">Edit</button>
+                    <button type="button" class="btn btn-warning" id="deletePersonnel">Delete</button>
+
+                    <button type="button" class="btn btn-secondary editPersonnel" id="epConfirm">Save</button>
+                    <button type="button" class="btn btn-secondary editPersonnel" id="epCancel">Cancel</button>
+
+                    <button type="button" class="btn btn-secondary dpConfirm" id="dpConfirm">Yes</button>
+                    <button type="button" class="btn btn-secondary dpConfirm" id="dpDecline">No</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id='preloader'></div>
-
-
 
     <!--Need this file to be able to run javascript-->
     <script type="application/javascript" src="vendor/jquery/jquery-2.2.3.min.js"></script>
+
+    <script type="application/javascript" src="vendor/bootstrap/js/bootstrap.bundle.min.js"> </script>
+
     <script type="application/javascript" src="libs/js/script.js"></script>
 </body>
 </html>
