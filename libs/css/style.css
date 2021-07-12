@@ -47,23 +47,54 @@
     }
 }
 
-html, body{
-    height:100%;
-    margin:0;
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.box{
+    display:flex;
+    flex-flow: column;
+    height: 100%;
+}
+
+.container {
+    flex: 0 1 auto;
+    padding: 0px;
+}
+
+#contactListDiv {
+    flex: 1 1 auto;
+    overflow: auto;
+}
+
+#contactList{
+    width:100%;
+}
+
+td{
+    padding:5px;
+}
+/*
+#location, #department {
+    width: 100%;
+    margin: 3px 0;
+}
+
+#depLocSearch {
+    max-width: 500px;
+    margin: 0 auto;
+}
+    */
+input {
     width: 100%;
 }
 
 
-ul{
-    padding:0;
-}
 
-li {
-    list-style: none;
+.result, .letterGroup {
     border-bottom: 1px solid grey
 }
-
-
 
 .letterGroup{
     background-color: lightgray;
@@ -77,4 +108,18 @@ li {
 
 legend{
     font-size: 110%;
+}
+
+table {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    margin-top: 5px;
+}
+
+.noResults {
+    text-align: center;
+}
+
+#cdDuplicate, #cdMissingInfoStatement, #dpConfirmStatement, .deptToDelete, #csMissingInfoStatement{
+    padding-top: 5px;
 }
