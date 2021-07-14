@@ -120,6 +120,6 @@ table {
     text-align: center;
 }
 
-#cdDuplicate, #cdMissingInfoStatement, #dpConfirmStatement, .deptToDelete, #csMissingInfoStatement{
+.paddedInfoStatement{
     padding-top: 5px;
 }

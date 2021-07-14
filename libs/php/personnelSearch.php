@@ -31,7 +31,7 @@
 
 	$and = ' AND ';
 
-	$query = 'SELECT p.id, p.lastName, p.firstName, p.departmentID, d.locationID from personnel p LEFT JOIN department d ON (d.id = p.departmentID) WHERE ';
+	$query = 'SELECT p.id, p.lastName, p.firstName, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) WHERE ';
 	$counter = 0;
 
 	$searchArray = array($name1, $name2, $deptID, $locID);

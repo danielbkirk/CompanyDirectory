@@ -1,8 +1,5 @@
 <?php
 
-	// example use from browser
-	// http://localhost/companydirectory/libs/php/insertDepartment.php?name=New%20Department&locationID=1
-
 	$executionStartTime = microtime(true);
 
 	include("config.php");
@@ -29,7 +26,7 @@
 
 	// $_REQUEST used for development / debugging. Remember to cange to $_POST for production
 
-	$query = 'INSERT INTO department (name, locationID) VALUES("' . $_REQUEST['name'] . '",' . $_REQUEST["locationID"] . ')';
+	$query = 'INSERT INTO location (name) VALUES ("' . $_REQUEST['name'] . '")';
 
 	$result = $conn->query($query);
 	

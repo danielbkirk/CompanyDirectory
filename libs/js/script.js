@@ -21,6 +21,7 @@ var personnelID;
 var departmentID;
 getAllStaff();
 loadDepartments();
+loadLocations();
 
 function staffExpand(id) {
     $.ajax({
@@ -85,10 +86,10 @@ function getAllStaff() {
                     if (this_first_letter != first_letter) {
                         first_letter = this_first_letter;
                         
-                        $('#contactList').append('<tr class="letterGroup" id = "group' + first_letter + '" ><td>' + first_letter + ' </td></tr>');
+                        $('#contactList').append('<tr class="letterGroup" id = "group' + first_letter + '" ><td colspan="3" >' + first_letter + ' </td></tr>');
                     }
                   
-                    $('#contactList').append('<tr class="result" data-bs-toggle="modal" data-bs-target="#personnelModal"  id="id' + result['data'][i]['id'] + '"><td>' + result['data'][i]['firstName'] + ' ' + result['data'][i]['lastName'] + '</td></tr>');
+                    $('#contactList').append('<tr class="result" data-bs-toggle="modal" data-bs-target="#personnelModal"  id="id' + result['data'][i]['id'] + '"><td>' + result['data'][i]['firstName'] + ' ' + result['data'][i]['lastName'] + '</td><td>' + result['data'][i]['department'] + ' </td><td>' + result['data'][i]['location'] + ' </td></tr>');
                 }
 
 
@@ -144,26 +145,28 @@ function loadDepartments() {
 
 
 //When document loads it populates the dropdown for location search
-$.ajax({
-    url: "libs/php/getAllLocations.php",
-    type: 'POST',
-    datatype: 'json',
-    data: {
-    },
-    success: function (result) {
-        console.log(result);
-        if (result.status.name == 'ok') {
-            for (var i = 0; i < result['data'].length; i++) {
-                $('.locations').append('<option value="' + result['data'][i]['id'] + '">' + result['data'][i]['name'] + '</option>');
-                locationList[result['data'][i]['id']] = result['data'][i]['name'];
-            }
-        };
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-        var errorMessage = jqXHR.status + ': ' + jqXHR.statusText;
-        alert('Error - ' + errorMessage);
-    }
-});
+function loadLocations() {
+    $.ajax({
+        url: "libs/php/getAllLocations.php",
+        type: 'POST',
+        datatype: 'json',
+        data: {
+        },
+        success: function (result) {
+            console.log(result);
+            if (result.status.name == 'ok') {
+                for (var i = 0; i < result['data'].length; i++) {
+                    $('.locations').append('<option class = "location" value="' + result['data'][i]['id'] + '">' + result['data'][i]['name'] + '</option>');
+                    locationList[result['data'][i]['id']] = result['data'][i]['name'];
+                }
+            };
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            var errorMessage = jqXHR.status + ': ' + jqXHR.statusText;
+            alert('Error - ' + errorMessage);
+        }
+    });
+};
 
 //Resets the search boxes
 $('#clear').click(function () {
@@ -246,10 +249,10 @@ function search() {
                             if (this_first_letter != first_letter) {
                                 first_letter = this_first_letter;
 
-                                $('#contactList').append('<tr class="letterGroup" id = "group' + first_letter + '" ><td>' + first_letter + '</td></tr>');
+                                $('#contactList').append('<tr class="letterGroup" id = "group' + first_letter + '" ><td colspan="3" >' + first_letter + '</td></tr>');
                             }
 
-                            $('#contactList').append('<tr class="result" data-bs-toggle="modal" data-bs-target="#personnelModal" id="id' + result['data'][i]['id'] + '"><td>' + result['data'][i]['firstName'] + ' ' + result['data'][i]['lastName'] + '</td></tr>');
+                            $('#contactList').append('<tr class="result" data-bs-toggle="modal" data-bs-target="#personnelModal" id="id' + result['data'][i]['id'] + '"><td>' + result['data'][i]['firstName'] + ' ' + result['data'][i]['lastName'] + '</td><td>' + result['data'][i]['department'] + ' </td><td>' + result['data'][i]['location'] + ' </td></tr>');
                         }
                     } else {
                         $('#contactList').append('<tr class="noResults"><td>No results!</td></td>');
@@ -275,6 +278,8 @@ function search() {
             }
         });
 
+    } else {
+        getAllStaff();
     }
         
 };
@@ -394,6 +399,7 @@ $('#cdCancel').click(function () {
 
 /*
     deleting department- start
+
     performs a personnel search with the location id of the department
     -if it is returned with data.length > 0 it will not allow the department to be deleted
     --as people are assigned to that department.
@@ -482,6 +488,125 @@ $('#ddDecline').click(function () {
 
 
 /* deleting department - end */
+
+/* Edit Department - start */
+$('#editDept').click(function () {
+
+    $('.edDeptSubmit').hide();
+    $('.edInitial').show();
+    $('#edDepartment').css("border-color", "");
+    $('#edMissingInfoStatement').hide();
+    $('#edDuplicate').hide();
+});
+
+$('#edClose').click(function () {
+
+    $('.edDeptSubmit').hide();
+    $('.edInitial').show();
+
+    $('#edMissingInfoStatement').hide();
+    $('#edDepartment').css("border-color", "");
+    $('#edDuplicate').hide();
+});
+
+$('#edEdit').click(function () {
+
+    $('#edDepartment').css("border-color", "");
+    $('#edMissingInfoStatement').hide();
+
+    if (!$('#edDepartment option:selected').text()) {
+
+        $('#edDepartmentName').val($('#edDepartment').text());
+
+        var edDeptID = $('#edDepartment option:selected').val();
+        var edLocID = deptLoc[edDeptID];
+        $('#edDeptLocation').val(edLocID);
+        edLocationID = edLocID;
+        /*The above holds the initial location ID - used later when editing location*/
+        $('.edDeptSubmit').show();
+        $('.edInitial').hide();
+
+    } else {
+        $('#edMissingInfoStatement').show();
+        $('#edDepartment').css("border-color", "red");
+    }
+
+});
+
+$('#edCancel').click(function () {
+
+    $('.edDeptSubmit').hide();
+    $('.edInitial').show();
+
+    $('#edDeptLocation').val('');
+    $('#edDepartmentName').val('');
+    $('#edDuplicate').hide();
+});
+
+$('#edDeptSubmit').click(function () {
+    $('#edDuplicate').hide();
+
+    if ($('#edDepartmentName').val() != $('#edDepartment option:selected').text() || edLocationID != $('#edDeptLocation').val()) {
+
+        $.ajax({
+            url: "libs/php/departmentSearch.php",
+            type: 'POST',
+            datatype: 'json',
+            data: {
+                depLocID: $('#edDeptLocation').val(),
+                name: $('#edDepartmentName').val()
+            },
+            success: function (result) {
+                console.log(result);
+                if (result.status.name == 'ok') {
+                    if (result['data'].length < 1) {
+                        $.ajax({
+                            url: "libs/php/editDepartment.php",
+                            type: 'POST',
+                            datatype: 'json',
+                            data: {
+                                id: $('#edDepartment option:selected').val(),
+                                depLocID: $('#edDeptLocation').val(),
+                                name: $('#edDepartmentName').val()
+                            },
+                            success: function (result) {
+                                console.log(result);
+                                if (result.status.name == 'ok') {
+
+                                };
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                var errorMessage = jqXHR.status + ': ' + jqXHR.statusText;
+                                alert('Error - ' + errorMessage);
+                            }
+                        });
+                    } else {
+                        $('#edDuplicate').show();
+                    }
+                };
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                var errorMessage = jqXHR.status + ': ' + jqXHR.statusText;
+                alert('Error - ' + errorMessage);
+            }
+        });
+
+        
+
+
+    } else {
+        $('.edDeptSubmit').hide();
+        $('.edInitial').show();
+
+        $('#edDeptLocation').val('');
+        $('#edDepartmentName').val('');
+    }
+
+});
+
+
+/* Edit Department - end */
+
 
 /* Create Personnel - Start */
 
@@ -699,11 +824,16 @@ $('#epConfirm').click(function () {
                     $('#ssTitle').val(epJob);
                     $('#ssDepartment').val($('#epDepartment option:selected').text());
                     $('#ssLocation').val($('#epLocation option:selected').text());
-                    
+
                     $('.staffInfo').show();
                     $('.staffInitialButton').show();
 
-                    search();
+                    if (($('#name').val()).replace(/\s+/g, ' ').trim() || idConversion($('#department option:selected').val()) || idConversion($('#location option:selected').val())) {
+                        search();
+                    } else {
+                        getAllStaff();
+                    }
+
                     /*
                     $('.result').remove();
                     getAllStaff();
@@ -726,3 +856,262 @@ $('#epConfirm').click(function () {
 
 /* Edit Personnel - end */
 
+/* Create Location - start */
+$('#createLoc').click(function () {
+    $('#clMissingInfoStatement').hide();
+    $('#clLocName').css("border-color", "");
+    $('#clDuplicate').hide();
+    $('#clLocName').val('');
+});
+
+$('#clCancel').click(function () {
+    $('#clMissingInfoStatement').hide();
+    $('#clLocName').css("border-color", "");
+    $('#clDuplicate').hide();
+    $('#clLocName').val('');
+});
+
+$('#createLocation').click(function () {
+    $('#clMissingInfoStatement').hide();
+    $('#clLocName').css("border-color", "");
+    $('#clDuplicate').hide();
+
+    var locName = ($('#clLocName').val()).replace(/\s+/g, ' ').trim();
+
+    if (locName) {
+        $.ajax({
+            url: "libs/php/locationSearch.php",
+            type: 'POST',
+            datatype: 'json',
+            data: {
+                name: locName
+            },
+            success: function (result) {
+                console.log(result);
+                if (result.status.name == 'ok') {
+                    if (result['data'].length < 1) {
+
+                        $.ajax({
+                            url: "libs/php/insertLocation.php",
+                            type: 'POST',
+                            datatype: 'json',
+                            data: {
+                                name: locName
+                            },
+                            success: function (result) {
+                                console.log(result);
+                                if (result.status.name == 'ok') {
+                                    $('#createLocModal').modal('hide');
+
+                                    $('#clLocName').val("");
+
+                                    $('#clMissingInfoStatement').hide();
+                                    $('#clLocName').css("border-color", "");
+
+                                    $('.location').remove();
+                                    loadLocations();
+                                };
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                var errorMessage = jqXHR.status + ': ' + jqXHR.statusText;
+                                alert('Error - ' + errorMessage);
+                            }
+                        });
+
+                    } else {
+                        $('#clDuplicate').show();
+                    }
+                };
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                var errorMessage = jqXHR.status + ': ' + jqXHR.statusText;
+                alert('Error - ' + errorMessage);
+            }
+        });
+
+
+
+    } else {
+        $('#clMissingInfoStatement').show();
+        $('#clLocName').css("border-color", "red");
+    }
+});
+
+/* Create Location - end */
+
+
+/* Delete Location - start */
+$('#delLoc').click(function () {
+    $('.dlConfirm').hide();
+    $('.dlFail').hide();
+    $('.dlInitialButtons').show();
+    $('#delLocation').css("border-color", "");
+    $('#delLocation').val('').trigger('change');
+});
+
+$('#dlClose').click(function () {
+    $('.dlConfirm').hide();
+    $('.dlFail').hide();
+    $('.dlInitialButtons').show();
+    $('#delLocation').css("border-color", "");
+    $('#delLocation').val('').trigger('change');
+});
+/*
+ Perfomrs a personnel search with only the locationID
+ If nothing is returned then it can be deleted.
+ If something is returned then someone is assigned to it and thus cannot be deleted
+ */
+$('#deleteLocation').click(function () {
+
+    var dlID = idConversion($('#delLocation option:selected').val());
+    $('.locToDelete').html($('#delLocation option:selected').text());
+
+    $.ajax({
+        url: "libs/php/personnelSearch.php",
+        type: 'POST',
+        datatype: 'json',
+        data: {
+            locID: dlID
+        },
+        success: function (result) {
+            console.log(result);
+            if (result.status.name == 'ok') {
+                if (result['data'].length == 0) {
+                    $('.dlInitialButtons').hide();
+                    $('.dlConfirm').show();
+
+                } else {
+                    $('.dlFail').show();
+                }
+            };
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            var errorMessage = jqXHR.status + ': ' + jqXHR.statusText;
+            alert('Error - ' + errorMessage);
+        }
+    });
+
+});
+
+$('#dlDecline').click(function () {
+    $('.dlConfirm').hide();
+    $('.dlInitialButtons').show();
+});
+
+$('#dlConfirm').click(function () {
+    var dlID = idConversion($('#delLocation option:selected').val());
+    $.ajax({
+        url: "libs/php/deleteLocationByID.php",
+        type: 'POST',
+        datatype: 'json',
+        data: {
+            id: dlID
+        },
+        success: function (result) {
+            console.log(result);
+            if (result.status.name == 'ok') {
+                $('.location').remove();
+                loadLocations();
+                $('#deleteLocModal').modal('hide');
+                $('.dlInitialButtons').show();
+
+                $('.dlConfirm').hide();
+                $('.dlFail').hide();
+
+            };
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            var errorMessage = jqXHR.status + ': ' + jqXHR.statusText;
+            alert('Error - ' + errorMessage);
+        }
+    });
+});
+
+/* Delete Location - end */
+
+
+/* Edit Location - start */
+$('#editLoc').click(function () {
+    $('#elMissingInfoStatement').hide();
+    $('.elInitialButtons').show();
+    $('#editLocation').css("border-color", "");
+    $('#editLocation').val('').trigger('change');
+    $('#elLocName').val('');
+    $('#elConfirm').hide();
+    $('#elLocName').hide();
+});
+
+$('#elEdit').click(function () {
+
+    $('#editLocation').css("border-color", "");
+    $('#elMissingInfoStatement').hide();
+
+    if ($('#editLocation option:selected').text()) {
+
+        $('#editLocation').hide();
+        $('#elLocName').show();
+
+        $('.elInitialButtons').hide();
+        $('.elConfirm').show();
+
+        $('#elLocName').val($('#editLocation option:selected').text());
+    } else {
+        $('#editLocation').css("border-color", "red");
+        $('#elMissingInfoStatement').show();
+    }
+});
+
+$('#elCancel').click(function () {
+
+    $('.elInitialButtons').show();
+    $('#elLocName').val('');
+    $('#elConfirm').hide();
+    $('#elLocName').hide();
+
+});
+
+$('#elConfirm').click(function () {
+
+    if ($('#editLocation option:selected').text() != $('#elLocName').val()) {
+
+        $.ajax({
+            url: "libs/php/editLocation.php",
+            type: 'POST',
+            datatype: 'json',
+            data: {
+                id: idConversion($('#editLocation option:selected').val()),
+                name: $('#elLocName').val().replace(/\s+/g, ' ').trim()
+            },
+            success: function (result) {
+                console.log(result);
+                if (result.status.name == 'ok') {
+
+                    $('.location').remove();
+                    loadLocations();
+
+                    $('#editLocationModal').modal('hide');
+                    $('.elInitialButtons').show();
+
+                    $('.elConfirm').hide();
+
+                };
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                var errorMessage = jqXHR.status + ': ' + jqXHR.statusText;
+                alert('Error - ' + errorMessage);
+            }
+        });
+
+    } else {
+
+        $('.elInitialButtons').show();
+        $('#elConfirm').hide();
+        $('#elLocName').hide();
+        $('#elLocName').val('');
+    }
+    
+
+});
+
+
+/* Edit Location - end */
