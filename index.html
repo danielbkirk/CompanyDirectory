@@ -38,6 +38,22 @@
                             <button class="btn btn-primary dropdown-item" id="delDept" type="button" data-bs-toggle="modal" data-bs-target="#deleteDepartmentModal">Delete Department</button>
                         </li>
 
+                        <li>
+                            <button class="btn btn-primary dropdown-item" id="editDept" type="button" data-bs-toggle="modal" data-bs-target="#editDepartmentModal">Edit Department</button>
+                        </li>
+
+                        <li>
+                            <button class="btn btn-primary dropdown-item" id="createLoc" type="button" data-bs-toggle="modal" data-bs-target="#createLocModal">Create Location</button>
+                        </li>
+
+                        <li>
+                            <button class="btn btn-primary dropdown-item" id="delLoc" type="button" data-bs-toggle="modal" data-bs-target="#deleteLocModal">Delete Location</button>
+                        </li>
+
+                        <li>
+                            <button class="btn btn-primary dropdown-item" id="editLoc" type="button" data-bs-toggle="modal" data-bs-target="#editLocationModal">Edit Location</button>
+                        </li>
+
                     </ul>
 
                 </div>
@@ -49,7 +65,7 @@
 
             <div class="row" id="depLocSearch">
                 <div class="col">
-                    <select name="location" id="location" class="locations form-select" aria-label="Default select example" >
+                    <select name="location" id="location" class="locations form-select" aria-label="Default select example">
                         <option class="allLocations" value="all" selected>Location</option>
                     </select>
                 </div>
@@ -74,43 +90,7 @@
         <!--results finish here-->
     </div>
 
-    <div class="modal" tabindex="-1" id="createDeptModal">
-        <div class="modal-dialog modal-dialog-centered modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Create Department</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
 
-                    <form>
-                        <fieldset>
-                            <legend>Department</legend>
-                            <input type="text" id="cdDeptName" class="form-control"/>
-                        </fieldset>
-
-                        <fieldset>
-                            <legend>Location</legend>
-                            <select id="cdDeptLocation" class="locations form-select" aria-label="select">
-                                <option></option>
-                            </select>
-                        </fieldset>
-
-                    </form>
-
-                    <p id="cdMissingInfoStatement" class="missingInfoStatement">* Please fill in the missing information</p>
-
-                    <p id="cdDuplicate">This department already exists in this location</p>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="cdCancel">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="createDepartment">Create</button>
-                    
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div class="modal" tabindex="-1" id="createPersonnelModal">
         <div class="modal-dialog modal-dialog-centered modal-sm">
@@ -120,7 +100,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    
+
                     <form>
                         <fieldset>
                             <legend>First Name</legend>
@@ -157,48 +137,12 @@
                         </fieldset>
                     </form>
 
-                    <p id="csMissingInfoStatement" class="missingInfoStatement">*Please fill in the missing information</p>
+                    <p id="csMissingInfoStatement" class="missingInfoStatement paddedInfoStatement">*Please fill in the missing information</p>
 
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="cancelCreatingPersonnel">Cancel</button>
                     <button type="button" class="btn btn-primary" id="createPersonnel">Create</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal" tabindex="-1" id="deleteDepartmentModal">
-        <div class="modal-dialog modal-dialog-centered modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Delete Department</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-
-                    <form>
-                        <fieldset>
-                            <legend>Select the department you wish to delete</legend>
-                            <select name="department" id="ddDepartment" class="departments form-select" aria-label="Default select">
-                                <option></option>
-                            </select>
-                        </fieldset>
-                    </form>
-
-                    <p class="ddConfirm">Are you sure you want to delete <span class="deptToDelete"></span>, this cannot be undone.</p>
-
-                    <p class="ddFail"><span class="deptToDelete"></span> cannot be deleted as there people assigned to that department!</p>
-
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary ddInitialButtons" data-bs-dismiss="modal" id="ddClose">Cancel</button>
-                    <button type="button" class="btn btn-primary ddInitialButtons" id="deleteDepartment">Delete</button>
-
-                    <button type="button" class="btn btn-secondary ddConfirm" id="ddDecline">No</button>
-                    <button type="button" id="ddConfirm" class="btn btn-secondary ddConfirm">Yes</button>
-
                 </div>
             </div>
         </div>
@@ -256,7 +200,7 @@
 
                     </form>
 
-                    <p class="dpConfirm" id="dpConfirmStatement">Are you sure you want to delete this personnel, this cannot be undone.</p>
+                    <p class="dpConfirm paddedInfoStatement" id="dpConfirmStatement">Are you sure you want to delete this personnel, this cannot be undone.</p>
 
                 </div>
                 <div class="modal-footer">
@@ -274,6 +218,232 @@
             </div>
         </div>
     </div>
+
+    <div class="modal" tabindex="-1" id="createDeptModal">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create Department</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <form>
+                        <fieldset>
+                            <legend>Department</legend>
+                            <input type="text" id="cdDeptName" class="form-control" />
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Location</legend>
+                            <select id="cdDeptLocation" class="locations form-select" aria-label="select">
+                                <option></option>
+                            </select>
+                        </fieldset>
+
+                    </form>
+
+                    <p id="cdMissingInfoStatement" class="missingInfoStatement paddedInfoStatement">* Please fill in the missing information</p>
+
+                    <p id="cdDuplicate" class="paddedInfoStatement">This department already exists in this location</p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="cdCancel">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="createDepartment">Create</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" tabindex="-1" id="editDepartmentModal">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Department</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <form>
+
+                        <fieldset>
+                            <legend>Department</legend>
+                            <select id="edDepartment" class="departments edInitial form-select" aria-label="Default select">
+                            </select>
+
+                            <input id="edDepartmentName" class="form-control edDeptSubmit"  />
+                        </fieldset>
+
+
+                        <fieldset class="edDeptSubmit">
+                            <legend>Location</legend>
+                            <select id="edDeptLocation" class="locations form-select" aria-label="select">
+                                
+                            </select>
+                        </fieldset>
+
+                    </form>
+
+                    <p id="edMissingInfoStatement" class="paddedInfoStatement">* Please select a department in the missing information</p>
+
+                    <p id="edDuplicate" class="paddedInfoStatement">This department already exists in this location</p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary edInitial" data-bs-dismiss="modal" id="edClose">Close</button>
+                    <button type="button" class="btn btn-primary edInitial" id="edEdit">Edit</button>
+
+                    <button type="button" class="btn btn-secondary edDeptSubmit" data-bs-dismiss="modal" id="edCancel">Cancel</button>
+                    <button type="button" class="btn btn-primary edDeptSubmit" id="edConfirm">Save</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" tabindex="-1" id="deleteDepartmentModal">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete Department</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <form>
+                        <fieldset>
+                            <legend>Select the department you wish to delete</legend>
+                            <select name="department" id="ddDepartment" class="departments form-select" aria-label="Default select">
+                                <option></option>
+                            </select>
+                        </fieldset>
+                    </form>
+
+                    <p class="ddConfirm paddedInfoStatement">Are you sure you want to delete <span class="deptToDelete"></span>- this cannot be undone.</p>
+
+                    <p class="ddFail paddedInfoStatement"><span class="deptToDelete"></span> cannot be deleted as there people assigned to that department!</p>
+
+
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary ddInitialButtons" data-bs-dismiss="modal" id="ddClose">Cancel</button>
+                    <button type="button" class="btn btn-primary ddInitialButtons" id="deleteDepartment">Delete</button>
+
+                    <button type="button" class="btn btn-secondary ddConfirm" id="ddDecline">No</button>
+                    <button type="button" id="ddConfirm" class="btn btn-secondary ddConfirm">Yes</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" tabindex="-1" id="createLocModal">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create Location</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <form>
+                        <fieldset>
+                            <legend>Location</legend>
+                            <input type="text" id="clLocName" class="form-control" />
+                        </fieldset>
+
+                    </form>
+
+                    <p id="clMissingInfoStatement" class="paddedInfoStatement">* Please fill in the missing information</p>
+
+                    <p id="clDuplicate" class="paddedInfoStatement">This location already exists in this location</p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="clCancel">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="createLocation">Create</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" tabindex="-1" id="deleteLocModal">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete Location</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <form>
+                        <fieldset>
+                            <legend>Location</legend>
+                            <select id="delLocation" class="locations form-select" aria-label="Default select">
+                                <option></option>
+                            </select>
+                        </fieldset>
+
+                    </form>
+
+                    <p class="dlConfirm paddedInfoStatement">Are you sure you want to delete <span class="locToDelete"></span>, this cannot be undone.</p>
+
+                    <p class="dlFail paddedInfoStatement"><span class="locToDelete"></span> cannot be deleted as there are departments assigned to that location!</p>
+
+
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary dlInitialButtons" data-bs-dismiss="modal" id="dlClose">Cancel</button>
+                    <button type="button" class="btn btn-primary dlInitialButtons" id="deleteLocation">Delete</button>
+
+                    <button type="button" class="btn btn-secondary dlConfirm" id="dlDecline">No</button>
+                    <button type="button" id="dlConfirm" class="btn btn-secondary dlConfirm">Yes</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" tabindex="-1" id="editLocationModal">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Location</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <form>
+                        <fieldset>
+                            <legend>Location</legend>
+                            <select id="editLocation" class="locations form-select" aria-label="Default select">
+                                <option></option>
+                            </select>
+                            <input type="text" id="elLocName" class="form-control" />
+                        </fieldset>
+
+                    </form>
+
+                    <p id="elMissingInfoStatement" class="paddedInfoStatement">* Please select a location</p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary elInitialButton" data-bs-dismiss="modal" id="elClose">Close</button>
+                    <button type="button" class="btn btn-primary elInitialButton" id="elEdit">Edit</button>
+
+                    <button type="button" class="btn btn-secondary elConfirm" id="elCancel">Close</button>
+                    <button type="button" class="btn btn-primary elConfirm" id="elConfirm">Save</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <div id='preloader'></div>
 
