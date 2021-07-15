@@ -1092,7 +1092,7 @@ $('#elConfirm').click(function () {
             type: 'POST',
             datatype: 'json',
             data: {
-                id: idConversion($('#editLocation option:selected').val()),
+                locID: idConversion($('#editLocation option:selected').val()),
                 name: $('#elLocName').val().replace(/\s+/g, ' ').trim()
             },
             success: function (result) {
