@@ -297,6 +297,8 @@ $('#createDeptButton').click(function () {
 $('#createDepartment').click(function () {
     $('#cdMissingInfoStatement').hide();
     $('#cdDuplicate').hide();
+    $('#cdDeptName').css("border-color", "");
+    $('#cdDeptLocation').css("border-color", "");
 
     var cdLocation = idConversion($('#cdDeptLocation option:selected').val());
     var cdDeptName = $('#cdDeptName').val().replace(/\s+/g, ' ').trim().toLowerCase();
@@ -491,7 +493,7 @@ $('#ddDecline').click(function () {
 
 /* Edit Department - start */
 $('#editDept').click(function () {
-
+    $('#edDepartment').val('');
     $('.edDeptSubmit').hide();
     $('.edInitial').show();
     $('#edDepartment').css("border-color", "");
@@ -514,9 +516,9 @@ $('#edEdit').click(function () {
     $('#edDepartment').css("border-color", "");
     $('#edMissingInfoStatement').hide();
 
-    if (!$('#edDepartment option:selected').text()) {
+    if ($('#edDepartment option:selected').text()) {
 
-        $('#edDepartmentName').val($('#edDepartment').text());
+        $('#edDepartmentName').val($('#edDepartment option:selected').text());
 
         var edDeptID = $('#edDepartment option:selected').val();
         var edLocID = deptLoc[edDeptID];
@@ -543,7 +545,7 @@ $('#edCancel').click(function () {
     $('#edDuplicate').hide();
 });
 
-$('#edDeptSubmit').click(function () {
+$('#edConfirm').click(function () {
     $('#edDuplicate').hide();
 
     if ($('#edDepartmentName').val() != $('#edDepartment option:selected').text() || edLocationID != $('#edDeptLocation').val()) {
@@ -553,7 +555,7 @@ $('#edDeptSubmit').click(function () {
             type: 'POST',
             datatype: 'json',
             data: {
-                depLocID: $('#edDeptLocation').val(),
+                locationID : $('#edDeptLocation').val(),
                 name: $('#edDepartmentName').val()
             },
             success: function (result) {
@@ -572,7 +574,9 @@ $('#edDeptSubmit').click(function () {
                             success: function (result) {
                                 console.log(result);
                                 if (result.status.name == 'ok') {
-
+                                    $('.department').remove();
+                                    loadDepartments();
+                                    $('#editDepartmentModal').modal('hide');
                                 };
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
@@ -942,6 +946,7 @@ $('#createLocation').click(function () {
 
 /* Delete Location - start */
 $('#delLoc').click(function () {
+    $('#dlMissingInfoStatement').hide();
     $('.dlConfirm').hide();
     $('.dlFail').hide();
     $('.dlInitialButtons').show();
@@ -964,33 +969,41 @@ $('#dlClose').click(function () {
 $('#deleteLocation').click(function () {
 
     var dlID = idConversion($('#delLocation option:selected').val());
-    $('.locToDelete').html($('#delLocation option:selected').text());
+    $('#dlMissingInfoStatement').hide();
+    $('#delLocation').css("border-color", "");
 
-    $.ajax({
-        url: "libs/php/personnelSearch.php",
-        type: 'POST',
-        datatype: 'json',
-        data: {
-            locID: dlID
-        },
-        success: function (result) {
-            console.log(result);
-            if (result.status.name == 'ok') {
-                if (result['data'].length == 0) {
-                    $('.dlInitialButtons').hide();
-                    $('.dlConfirm').show();
 
-                } else {
-                    $('.dlFail').show();
-                }
-            };
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            var errorMessage = jqXHR.status + ': ' + jqXHR.statusText;
-            alert('Error - ' + errorMessage);
-        }
-    });
+    if (dlID) {
+        $('.locToDelete').html($('#delLocation option:selected').text());
+        $.ajax({
+            url: "libs/php/personnelSearch.php",
+            type: 'POST',
+            datatype: 'json',
+            data: {
+                locID: dlID
+            },
+            success: function (result) {
+                console.log(result);
+                if (result.status.name == 'ok') {
+                    if (result['data'].length == 0) {
+                        $('.dlInitialButtons').hide();
+                        $('.dlConfirm').show();
 
+                    } else {
+                        $('.dlFail').show();
+                    }
+                };
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                var errorMessage = jqXHR.status + ': ' + jqXHR.statusText;
+                alert('Error - ' + errorMessage);
+            }
+        });
+    } else {
+        $('#dlMissingInfoStatement').show();
+        $('#delLocation').css("border-color", "red");
+
+    }
 });
 
 $('#dlDecline').click(function () {
@@ -1037,7 +1050,7 @@ $('#editLoc').click(function () {
     $('#editLocation').css("border-color", "");
     $('#editLocation').val('').trigger('change');
     $('#elLocName').val('');
-    $('#elConfirm').hide();
+    $('.elConfirm').hide();
     $('#elLocName').hide();
 });
 
@@ -1065,7 +1078,7 @@ $('#elCancel').click(function () {
 
     $('.elInitialButtons').show();
     $('#elLocName').val('');
-    $('#elConfirm').hide();
+    $('.elConfirm').hide();
     $('#elLocName').hide();
 
 });
@@ -1105,7 +1118,7 @@ $('#elConfirm').click(function () {
     } else {
 
         $('.elInitialButtons').show();
-        $('#elConfirm').hide();
+        $('.elConfirm').hide();
         $('#elLocName').hide();
         $('#elLocName').val('');
     }

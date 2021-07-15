@@ -324,6 +324,7 @@
                     <p class="ddConfirm paddedInfoStatement">Are you sure you want to delete <span class="deptToDelete"></span>- this cannot be undone.</p>
 
                     <p class="ddFail paddedInfoStatement"><span class="deptToDelete"></span> cannot be deleted as there people assigned to that department!</p>
+                    
 
 
                 </div>
@@ -394,6 +395,8 @@
 
                     <p class="dlFail paddedInfoStatement"><span class="locToDelete"></span> cannot be deleted as there are departments assigned to that location!</p>
 
+                    <p id="dlMissingInfoStatement" class="paddedInfoStatement">* Please select a location</p>
+
 
                 </div>
                 <div class="modal-footer">
@@ -433,10 +436,10 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary elInitialButton" data-bs-dismiss="modal" id="elClose">Close</button>
-                    <button type="button" class="btn btn-primary elInitialButton" id="elEdit">Edit</button>
+                    <button type="button" class="btn btn-secondary elInitialButtons" data-bs-dismiss="modal" id="elClose">Close</button>
+                    <button type="button" class="btn btn-primary elInitialButtons" id="elEdit">Edit</button>
 
-                    <button type="button" class="btn btn-secondary elConfirm" id="elCancel">Close</button>
+                    <button type="button" class="btn btn-secondary elConfirm" id="elCancel">Cancel</button>
                     <button type="button" class="btn btn-primary elConfirm" id="elConfirm">Save</button>
 
                 </div>
