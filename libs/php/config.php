@@ -1,10 +1,10 @@
 <?php
 
-	$cd_host = "db5002861355.hosting-data.io";
+	$cd_host = "";
 	$cd_port = 3306;
 	$cd_socket = "";
-	$cd_user = "dbu909116"; // user name
-	$cd_password = "sElling@348!"; // password
-	$cd_dbname = "dbs2291208"; // database name
+	$cd_user = ""; // user name
+	$cd_password = ""; // password
+	$cd_dbname = ""; // database name
 
 ?>
