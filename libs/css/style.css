@@ -1,0 +1,147 @@
+﻿#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    overflow: hidden;
+    background: #fff;
+}
+
+    #preloader:before {
+        content: "";
+        position: fixed;
+        top: calc(50% - 30px);
+        left: calc(50% - 30px);
+        border: 6px solid #f2f2f2;
+        border-top: 6px solid #56829e;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        -webkit-animation: animate-preloader 1s linear infinite;
+        animation: animate-preloader 1s linear infinite;
+    }
+
+@-webkit-keyframes animate-preloader {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes animate-preloader {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    background-color:ivory;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+#contactListDiv::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+#contactListDiv {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+.box{
+    display:flex;
+    flex-flow: column;
+    height: 100%;
+}
+
+.container {
+    flex: 0 1 auto;
+    padding: 0px;
+}
+
+#contactListDiv {
+    flex: 1 1 auto;
+    overflow: auto;
+}
+
+#contactList{
+    width:100%;
+}
+
+td{
+    padding:5px;
+}
+
+#location, #department {
+    box-shadow:2px 2px 2px black;
+}
+
+.modal-content {
+    box-shadow: 5px 5px 10px;
+}
+
+input {
+    width: 100%;
+}
+
+.btnWidth{
+    width:73px;
+}
+
+.result, .letterGroup {
+    border-bottom: 1px solid grey
+}
+
+.letterGroup {
+    background-color: #2C3539;
+    color: white;
+    text-shadow: 0px 0px 10px white;
+}
+
+.result:hover {
+    cursor: pointer;
+    background-color: #2C3539;
+    color:white;
+    
+}
+
+#navBar{
+    padding: 5px 5px 0px 5px;
+}
+
+#depLocSearch{
+    padding: 0px 5px 5px 5px;
+}
+
+legend {
+    font-size: 110%;
+}
+
+table {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.noResults {
+    text-align: center;
+}
+
+.paddedInfoStatement{
+    padding-top: 5px;
+}
