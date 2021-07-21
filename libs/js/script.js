@@ -61,6 +61,9 @@ function staffExpand(id) {
 };
 
 function getAllStaff() {
+    $('.result').remove();
+    $('.noResults').remove();
+    $('.letterGroup').remove();
     $.ajax({
         url: "libs/php/getAll.php",
         type: 'POST',
@@ -71,13 +74,7 @@ function getAllStaff() {
             console.log(result);
 
             if (result.status.name == 'ok') {
-                $('.letterGroup').remove();
-                $('.result').remove();
-                /*
-                for (var i = 0; i < result['data'].length; i++) {
-                    $('#resultsTable').append('<tr class="result" id="id' + result['data'][i]['id'] + '"><td>' + result['data'][i]['firstName'] + '</td><td>' + result['data'][i]['lastName'] + '</td></tr>');
-                }
-                */
+
 
                 var first_letter = "";
                 for (var i = 0; i < result['data'].length; i++) {
@@ -203,6 +200,10 @@ $('#department').on('change', function () {
 
 //performs search on submitted on keystroke or dropdown selection
 function search() {
+    $('.result').remove();
+    $('.noResults').remove();
+    $('.letterGroup').remove();
+    
     var searchName = ($('#name').val()).replace(/\s+/g, ' ').trim();
     var searchDepartment = idConversion($('#department option:selected').val());
     var searchLocation = idConversion($('#location option:selected').val());
@@ -230,8 +231,6 @@ function search() {
     }
     
     if (!jQuery.isEmptyObject(data)) {
-        $('.result').remove();
-        $('.noResults').remove();
         $.ajax({
             url: "libs/php/personnelSearch.php",
             type: 'POST',
@@ -256,7 +255,7 @@ function search() {
                         }
                     } else {
                         $('#contactList').append('<tr class="noResults"><td>No results!</td></td>');
-                        $('.letterGroup').remove();
+
                     }
 
                     $(".result").click(function () {
