@@ -665,6 +665,9 @@ $('#createPersonnel').click(function () {
                     $('#createPersonnelModal').modal('hide');
                     $('#csDepartment').val("").trigger('change');
                     $('.cs').val('');
+                    $('#name').val('');
+                    $('#location').val('all');
+                    $('#department').val('all');
                     $('.result').remove();
                     $('.noResults').remove();
                     getAllStaff();
