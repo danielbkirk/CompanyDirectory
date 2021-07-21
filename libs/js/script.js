@@ -722,7 +722,7 @@ $('#deletePersonnel').click(function () {
 
 $('#dpDecline').click(function () {
     $('.dpConfirm').hide();
-    $('.staffInitalButton').show();
+    $('.staffInitialButton').show();
 });
 
 $('#dpConfirm').click(function () {
