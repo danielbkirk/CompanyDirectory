@@ -295,7 +295,7 @@
                     <button type="button" class="btn btn-outline-secondary edInitial btnWidth" data-bs-dismiss="modal" id="edClose">Close</button>
                     <button type="button" class="btn btn-outline-warning edInitial btnWidth" id="edEdit">Edit</button>
 
-                    <button type="button" class="btn btn-outline-primary edDeptSubmit btnWidth" data-bs-dismiss="modal" id="edCancel">Cancel</button>
+                    <button type="button" class="btn btn-outline-primary edDeptSubmit btnWidth" id="edCancel">Cancel</button>
                     <button type="button" class="btn btn-outline-success edDeptSubmit btnWidth" id="edConfirm">Save</button>
 
                 </div>
@@ -315,9 +315,10 @@
                     <form>
                         <fieldset>
                             <legend>Select the department you wish to delete</legend>
-                            <select name="department" id="ddDepartment" class="departments form-select" aria-label="Default select">
+                            <select name="department" id="ddDepartment" class="departments form-select ddInitial" aria-label="Default select">
                                 <option></option>
                             </select>
+                            <input id="ddDepartmentName" class="form-control ddConfirm" readonly/>
                         </fieldset>
                     </form>
 
@@ -330,8 +331,8 @@
                 </div>
                 <div class="modal-footer">
 
-                    <button type="button" class="btn btn-outline-primary ddInitialButtons btnWidth" data-bs-dismiss="modal" id="ddClose">Cancel</button>
-                    <button type="button" class="btn btn-outline-danger ddInitialButtons btnWidth" id="deleteDepartment">Delete</button>
+                    <button type="button" class="btn btn-outline-primary ddInitial btnWidth" data-bs-dismiss="modal" id="ddClose">Cancel</button>
+                    <button type="button" class="btn btn-outline-danger ddInitial btnWidth" id="deleteDepartment">Delete</button>
 
                     <button type="button" class="btn btn-outline-primary ddConfirm btnWidth" id="ddDecline">No</button>
                     <button type="button" id="ddConfirm" class="btn btn-outline-success ddConfirm btnWidth">Yes</button>
@@ -384,9 +385,11 @@
                     <form>
                         <fieldset>
                             <legend>Location</legend>
-                            <select id="delLocation" class="locations form-select" aria-label="Default select">
+                            <select id="delLocation" class="locations form-select dlInitial" aria-label="Default select">
                                 <option></option>
                             </select>
+
+                            <input id="dlLocationName" class="form-control dlConfirm" readonly/>
                         </fieldset>
 
                     </form>
@@ -401,8 +404,8 @@
                 </div>
                 <div class="modal-footer">
 
-                    <button type="button" class="btn btn-outline-primary dlInitialButtons btnWidth" data-bs-dismiss="modal" id="dlClose">Cancel</button>
-                    <button type="button" class="btn btn-outline-warning dlInitialButtons btnWidth" id="deleteLocation">Delete</button>
+                    <button type="button" class="btn btn-outline-primary dlInitial btnWidth" data-bs-dismiss="modal" id="dlClose">Cancel</button>
+                    <button type="button" class="btn btn-outline-warning dlInitial btnWidth" id="deleteLocation">Delete</button>
 
                     <button type="button" class="btn btn-outline-primary dlConfirm btnWidth" id="dlDecline">No</button>
                     <button type="button" id="dlConfirm" class="btn btn-outline-success dlConfirm btnWidth">Yes</button>
