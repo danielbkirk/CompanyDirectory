@@ -1,5 +1,5 @@
 
-    //When document loads up it shows everyone in the directory
+//When document loads up it shows everyone in the directory
 $(window).on('load', function () {
 
     if ($('#preloader').length) {
@@ -7,7 +7,7 @@ $(window).on('load', function () {
             $(this).remove();
         });
     }
-    
+
     //Hides conformation section before hitting button
     $('.ddConfirm').hide();
     $('.dpConfirm').hide();
@@ -82,10 +82,10 @@ function getAllStaff() {
 
                     if (this_first_letter != first_letter) {
                         first_letter = this_first_letter;
-                        
+
                         $('#contactList').append('<tr class="letterGroup" id = "group' + first_letter + '" ><td colspan="3" >' + first_letter + ' </td></tr>');
                     }
-                  
+
                     $('#contactList').append('<tr class="result" data-bs-toggle="modal" data-bs-target="#personnelModal"  id="id' + result['data'][i]['id'] + '"><td>' + result['data'][i]['firstName'] + ' ' + result['data'][i]['lastName'] + '</td><td>' + result['data'][i]['department'] + ' </td><td>' + result['data'][i]['location'] + ' </td></tr>');
                 }
 
@@ -130,7 +130,7 @@ function loadDepartments() {
                     //deptLoc key=departmentID, value=locationID
                     deptLoc[result['data'][i]['id']] = result['data'][i]['locationID'];
                 }
-                
+
             };
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -169,8 +169,8 @@ function loadLocations() {
 $('#clear').click(function () {
     $('#name').val("");
 
-    $('#location').val("all").trigger('change');
-    $('#department').val("all").trigger('change');
+    $('#location').val("all");
+    $('#department').val("all");
 
     $('.result').remove();
     $('.noResults').remove();
@@ -203,11 +203,11 @@ function search() {
     $('.result').remove();
     $('.noResults').remove();
     $('.letterGroup').remove();
-    
+
     var searchName = ($('#name').val()).replace(/\s+/g, ' ').trim();
     var searchDepartment = idConversion($('#department option:selected').val());
     var searchLocation = idConversion($('#location option:selected').val());
- 
+
     var space = searchName.indexOf(' ');
     var name2 = searchName.substring(0, space);
     var name1 = searchName.substring(space + 1);
@@ -229,7 +229,7 @@ function search() {
     if (searchDepartment) {
         data.deptID = searchDepartment;
     }
-    
+
     if (!jQuery.isEmptyObject(data)) {
         $.ajax({
             url: "libs/php/personnelSearch.php",
@@ -280,7 +280,7 @@ function search() {
     } else {
         getAllStaff();
     }
-        
+
 };
 
 /* Create Department - Start*/
@@ -313,7 +313,7 @@ $('#createDepartment').click(function () {
                 words[i] = words[i];
             } else {
                 words[i] = words[i][0].toUpperCase() + words[i].substr(1);
-            }         
+            }
         }
 
         var cdTrimDept = words.join(" ");
@@ -330,7 +330,7 @@ $('#createDepartment').click(function () {
                 console.log(result);
                 if (result.status.name == 'ok') {
                     if (result['data'][0]['dc'] == 0) {
-                        
+
                         $.ajax({
                             url: "libs/php/insertDepartment.php",
                             type: 'POST',
@@ -371,7 +371,7 @@ $('#createDepartment').click(function () {
                 alert('Error - ' + errorMessage);
             }
         });
-        
+
 
     } else {
         $('#cdMissingInfoStatement').show();
@@ -409,6 +409,9 @@ $('#cdCancel').click(function () {
 */
 $('#delDept').click(function () {
     $('#ddDepartment').val('').trigger('change');
+    $('.ddConfirm').hide();
+    $('.ddFail').hide();
+    $('.ddInitial').show();
 });
 
 
@@ -429,8 +432,9 @@ $('#deleteDepartment').click(function () {
                 console.log(result);
                 if (result.status.name == 'ok') {
                     if (result['data'][0]['pc'] == 0) {
-                        $('.ddInitialButtons').hide();
+                        $('.ddInitial').hide();
                         $('.ddConfirm').show();
+                        $('#ddDepartmentName').val($('#ddDepartment option:selected').text());
 
                     } else {
                         $('.ddFail').show();
@@ -442,13 +446,14 @@ $('#deleteDepartment').click(function () {
                 alert('Error - ' + errorMessage);
             }
         });
-    } 
+    }
 });
 
 $('#ddClose').click(function () {
     $('.ddConfirm').hide();
     $('.ddFail').hide();
-
+    $('#ddDepartment').val('').trigger('change');
+    $('.ddInitial').show();
 });
 
 
@@ -467,7 +472,7 @@ $('#ddConfirm').click(function () {
                 $('.department').remove();
                 loadDepartments();
                 $('#deleteDepartmentModal').modal('hide');
-                $('.ddInitialButtons').show();
+                $('.ddInitial').show();
 
                 $('.ddConfirm').hide();
                 $('.ddFail').hide();
@@ -483,7 +488,7 @@ $('#ddConfirm').click(function () {
 
 $('#ddDecline').click(function () {
     $('.ddConfirm').hide();
-    $('.ddInitialButtons').show();
+    $('.ddInitial').show();
 });
 
 
@@ -555,7 +560,7 @@ $('#edConfirm').click(function () {
             type: 'POST',
             datatype: 'json',
             data: {
-                locationID : $('#edDeptLocation').val(),
+                locationID: $('#edDeptLocation').val(),
                 name: $('#edDepartmentName').val()
             },
             success: function (result) {
@@ -577,6 +582,12 @@ $('#edConfirm').click(function () {
                                     $('.department').remove();
                                     loadDepartments();
                                     $('#editDepartmentModal').modal('hide');
+
+                                    if (($('#name').val()).replace(/\s+/g, ' ').trim() || idConversion($('#department option:selected').val()) || idConversion($('#location option:selected').val())) {
+                                        search();
+                                    } else {
+                                        getAllStaff();
+                                    }
                                 };
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
@@ -595,7 +606,7 @@ $('#edConfirm').click(function () {
             }
         });
 
-        
+
 
 
     } else {
@@ -647,12 +658,12 @@ $('#createPersonnel').click(function () {
 
     var email = $('#csEmail').val().trim();
     data.email = email;
-    
+
 
     if ($('#csJobTitle').val()) {
         data.jobTitle = $('#csJobTitle').val().replace(/\s+/g, ' ').trim();
     }
-    
+
     if (firstName && lastName && deptID && email) {
         $.ajax({
             url: "libs/php/insertPersonnel.php",
@@ -665,12 +676,12 @@ $('#createPersonnel').click(function () {
                     $('#createPersonnelModal').modal('hide');
                     $('#csDepartment').val("").trigger('change');
                     $('.cs').val('');
-                    $('#name').val('');
-                    $('#location').val('all');
-                    $('#department').val('all');
-                    $('.result').remove();
-                    $('.noResults').remove();
-                    getAllStaff();
+
+                    if (($('#name').val()).replace(/\s+/g, ' ').trim() || idConversion($('#department option:selected').val()) || idConversion($('#location option:selected').val())) {
+                        search();
+                    } else {
+                        getAllStaff();
+                    }
                 };
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -711,7 +722,7 @@ $('#cancelCreatingPersonnel').click(function () {
 
 
 
-/* Delete Personnel - start */ 
+/* Delete Personnel - start */
 
 $('#deletePersonnel').click(function () {
 
@@ -746,7 +757,11 @@ $('#dpConfirm').click(function () {
                 $('.doConfirm').hide();
                 $('.staffInitialButton').show();
 
-                $('#clear').trigger('click');
+                if (($('#name').val()).replace(/\s+/g, ' ').trim() || idConversion($('#department option:selected').val()) || idConversion($('#location option:selected').val())) {
+                    search();
+                } else {
+                    getAllStaff();
+                }
             };
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -806,7 +821,7 @@ $('#epConfirm').click(function () {
         data.job = epJob;
         data.deptID = epDeptID;
     }
-    
+
     if (!jQuery.isEmptyObject(data)) {
 
         data.personnelID = personnelID;
@@ -819,10 +834,7 @@ $('#epConfirm').click(function () {
             success: function (result) {
                 console.log(result);
                 if (result.status.name == 'ok') {
-                    /*
-                    $('#personnelModal').modal('hide');
-                    $('.staffInfo').val('');
-                    */
+
                     $('.editPersonnel').hide();
 
                     $('#ssFirst').val(epFirst);
@@ -841,10 +853,6 @@ $('#epConfirm').click(function () {
                         getAllStaff();
                     }
 
-                    /*
-                    $('.result').remove();
-                    getAllStaff();
-                    */
                 };
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -953,7 +961,7 @@ $('#delLoc').click(function () {
     $('#dlMissingInfoStatement').hide();
     $('.dlConfirm').hide();
     $('.dlFail').hide();
-    $('.dlInitialButtons').show();
+    $('.dlInitial').show();
     $('#delLocation').css("border-color", "");
     $('#delLocation').val('').trigger('change');
 });
@@ -961,7 +969,7 @@ $('#delLoc').click(function () {
 $('#dlClose').click(function () {
     $('.dlConfirm').hide();
     $('.dlFail').hide();
-    $('.dlInitialButtons').show();
+    $('.dlInitial').show();
     $('#delLocation').css("border-color", "");
     $('#delLocation').val('').trigger('change');
 });
@@ -975,6 +983,7 @@ $('#deleteLocation').click(function () {
 
     var dlID = idConversion($('#delLocation option:selected').val());
     $('#dlMissingInfoStatement').hide();
+    $('.dlFail').hide();
     $('#delLocation').css("border-color", "");
 
 
@@ -991,9 +1000,9 @@ $('#deleteLocation').click(function () {
                 console.log(result);
                 if (result.status.name == 'ok') {
                     if (result['data'][0]['lc'] == 0) {
-                        $('.dlInitialButtons').hide();
+                        $('.dlInitial').hide();
                         $('.dlConfirm').show();
-
+                        $('#dlLocationName').val($('#delLocation option:selected').text());
                     } else {
                         $('.dlFail').show();
                     }
@@ -1013,7 +1022,7 @@ $('#deleteLocation').click(function () {
 
 $('#dlDecline').click(function () {
     $('.dlConfirm').hide();
-    $('.dlInitialButtons').show();
+    $('.dlInitial').show();
 });
 
 $('#dlConfirm').click(function () {
@@ -1031,7 +1040,7 @@ $('#dlConfirm').click(function () {
                 $('.location').remove();
                 loadLocations();
                 $('#deleteLocModal').modal('hide');
-                $('.dlInitialButtons').show();
+                $('.dlInitial').show();
 
                 $('.dlConfirm').hide();
                 $('.dlFail').hide();
@@ -1051,6 +1060,7 @@ $('#dlConfirm').click(function () {
 /* Edit Location - start */
 
 $('#editLoc').click(function () {
+    $('#editLocation').show();
     $('#elMissingInfoStatement').hide();
     $('.elInitialButtons').show();
     $('#editLocation').css("border-color", "");
@@ -1081,7 +1091,7 @@ $('#elEdit').click(function () {
 });
 
 $('#elCancel').click(function () {
-
+    $('#editLocation').show();
     $('.elInitialButtons').show();
     $('#elLocName').val('');
     $('.elConfirm').hide();
@@ -1112,6 +1122,11 @@ $('#elConfirm').click(function () {
                     $('.elInitialButtons').show();
 
                     $('.elConfirm').hide();
+                    if (($('#name').val()).replace(/\s+/g, ' ').trim() || idConversion($('#department option:selected').val()) || idConversion($('#location option:selected').val())) {
+                        search();
+                    } else {
+                        getAllStaff();
+                    }
 
                 };
             },
@@ -1128,7 +1143,7 @@ $('#elConfirm').click(function () {
         $('#elLocName').hide();
         $('#elLocName').val('');
     }
-    
+
 
 });
 
