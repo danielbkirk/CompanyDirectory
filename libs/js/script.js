@@ -412,6 +412,8 @@ $('#delDept').click(function () {
     $('.ddConfirm').hide();
     $('.ddFail').hide();
     $('.ddInitial').show();
+    $('#ddDepartment').css("border-color", "");
+    $('#ddNonSelected').hide();
 });
 
 
@@ -419,6 +421,10 @@ $('#delDept').click(function () {
 $('#deleteDepartment').click(function () {
     var ddID = idConversion($('#ddDepartment option:selected').val());
     $('.deptToDelete').html($('#ddDepartment option:selected').text());
+
+    $('#ddDepartment').css("border-color", "");
+    $('#ddNonSelected').hide();
+
     if (ddID) {
 
         $.ajax({
@@ -446,6 +452,9 @@ $('#deleteDepartment').click(function () {
                 alert('Error - ' + errorMessage);
             }
         });
+    } else {
+        $('#ddDepartment').css("border-color", "red");
+        $('#ddNonSelected').show();
     }
 });
 
@@ -454,6 +463,8 @@ $('#ddClose').click(function () {
     $('.ddFail').hide();
     $('#ddDepartment').val('').trigger('change');
     $('.ddInitial').show();
+    $('#ddDepartment').css("border-color", "");
+    $('#ddNonSelected').hide();
 });
 
 
